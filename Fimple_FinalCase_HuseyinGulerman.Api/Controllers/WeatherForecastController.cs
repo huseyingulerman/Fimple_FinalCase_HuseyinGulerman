@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
-    
+    [Authorize(Roles ="user")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -19,7 +19,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+   
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

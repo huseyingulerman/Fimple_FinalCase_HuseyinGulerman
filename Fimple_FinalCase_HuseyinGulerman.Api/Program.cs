@@ -11,6 +11,7 @@ using Fimple_FinalCase_HuseyinGulerman.Api.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api
 {
@@ -37,6 +38,30 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                 {
                     options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
                 });
+            });
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Final Case", Version = "v1" });
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Sim Management for IT Company",
+                    Description = "Enter JWT Bearer token **only**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+ {
+     {securityScheme, new string[] { }}
+});
             });
             builder.Services.AddAuthorization();
             builder.Services.AddAuthentication(options =>

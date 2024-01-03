@@ -8,23 +8,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/tokens")]
     [ApiController]
     public class TokenController : ControllerBase
     {
         private readonly ITokenService service;
-        private readonly UserManager<AppUser> u;
-        public TokenController(ITokenService service,UserManager<AppUser> us)
+        public TokenController(ITokenService service)
         {
             this.service = service;
-            u=us;
+           
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Post([FromBody] TokenCreateDTO tokenCreateDTO   )
+        public async Task<IActionResult> Login([FromBody] TokenCreateDTO tokenCreateDTO   )
         {
-            var a= await u.FindByEmailAsync(tokenCreateDTO.Email);
             var response = await service.Login(tokenCreateDTO);
-            return Created("/api/tokens/" , response.Data);
+            if (response.Errors is not null)
+            {
+                return BadRequest(response.Errors);
+            }
+            return Ok(response.Data);
         }
     }
 }

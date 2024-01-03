@@ -36,11 +36,21 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
 
         public async Task<IAppResult<TokenDTO>> Login(TokenCreateDTO tokenCreateDTO)
         {
-           var user=await _userManager.FindByEmailAsync(tokenCreateDTO.Email);
-            //if(!await _userManager.CheckPasswordAsync(user, tokenCreateDTO.Password))
-            //{
-            //    return AppResult<TokenDTO>.Fail(StatusCodes.Status200OK, "Invalid User");
-            //}
+            if (tokenCreateDTO is null)
+            {
+                return AppResult<TokenDTO>.Fail(StatusCodes.Status400BadRequest, "Email ve Şifrenizini Giriniz");
+            }
+            if (string.IsNullOrEmpty(tokenCreateDTO.Email) || string.IsNullOrEmpty(tokenCreateDTO.Password))
+            {
+                return  AppResult<TokenDTO>.Fail(StatusCodes.Status400BadRequest, "Email ve Şifrenizini Giriniz"); 
+            }
+            tokenCreateDTO.Email = tokenCreateDTO.Email.Trim().ToLower();
+            tokenCreateDTO.Password = tokenCreateDTO.Password.Trim();
+            var user=await _userManager.FindByEmailAsync(tokenCreateDTO.Email);
+            if (!await _userManager.CheckPasswordAsync(user, tokenCreateDTO.Password) || user is null)
+            {
+                return AppResult<TokenDTO>.Fail(StatusCodes.Status400BadRequest, "Email veya Şifre Hatalı");
+            }
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>();
 

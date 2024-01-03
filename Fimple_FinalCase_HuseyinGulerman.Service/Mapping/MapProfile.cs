@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Fimple_FinalCase_HuseyinGulerman.Core.DTOs.CreateDTO;
+using Fimple_FinalCase_HuseyinGulerman.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Mapping
     {
         public MapProfile()
         {
-            
+            CreateMap<AppUser, AppUserCreateDTO>().ReverseMap();
+            CreateMap<IdentityRole, AppUserRoleCreateDTO>().ReverseMap();
+
         }
     }
 }
