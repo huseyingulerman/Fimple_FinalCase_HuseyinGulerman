@@ -4,14 +4,33 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class Init1 : Migration
+    public partial class AddAccounIdColone : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AccountTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountTypes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -34,6 +53,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
+                    IdentificationNumber = table.Column<string>(type: "text", nullable: false),
                     Addresses = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
@@ -76,6 +96,41 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    AccountTypeId = table.Column<int>(type: "integer", nullable: false),
+                    AccountNumber = table.Column<string>(type: "text", nullable: false),
+                    AccountBalance = table.Column<double>(type: "double precision", nullable: false),
+                    DailyTransactionLimit = table.Column<double>(type: "double precision", nullable: false),
+                    OneTimeTransactionLimit = table.Column<double>(type: "double precision", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accounts_AccountTypes_AccountTypeId",
+                        column: x => x.AccountTypeId,
+                        principalTable: "AccountTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Accounts_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -165,10 +220,74 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Processes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OutgoingAccountNumber = table.Column<string>(type: "text", nullable: false),
+                    AmountSent = table.Column<double>(type: "double precision", nullable: false),
+                    TransactionSuccessful = table.Column<bool>(type: "boolean", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    AccountId = table.Column<int>(type: "integer", nullable: false),
+                    ProcessType = table.Column<int>(type: "integer", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Processes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Processes_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Processes_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AccountTypes",
+                columns: new[] { "Id", "CreatedDate", "IsActive", "ModifiedDate", "Name", "Status" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Vadeli", 1 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Döviz", 1 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Altın", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "5b64a78a-4442-4e92-a019-4f7bfb29ac52", null, "admin", "ADMIN" },
+                    { "6b64a78a-4442-4e92-a019-4f7bfb29ac52", null, "user", "USER" },
+                    { "7b64a78a-4442-4e92-a019-4f7bfb29ac52", null, "auditor", "AUDITOR" }
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Addresses", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00c92277-f154-49d4-9765-9be7357a04bd", 0, "Üsküdar", "508b6b5a-0b04-4229-adee-b895807dfd6e", new DateTime(2024, 1, 2, 22, 29, 49, 495, DateTimeKind.Utc).AddTicks(8727), new DateTime(2024, 1, 2, 22, 29, 49, 495, DateTimeKind.Utc).AddTicks(8769), "huseyingulerman.1997@gmail.com", false, "Hüseyin", true, "Gülerman", false, null, null, null, null, "123456", null, false, "417fc192-3924-4fa2-adfb-d3274bbaf218", 1, false, "huseying" });
+                columns: new[] { "Id", "AccessFailedCount", "Addresses", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "IdentificationNumber", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "00c92277-f154-49d4-9765-9be7357a04bd", 0, "Üsküdar", "b6786d77-03b6-4fd4-8f9a-79fb497cb1c7", new DateTime(2024, 1, 6, 7, 42, 14, 837, DateTimeKind.Utc).AddTicks(5631), new DateTime(2024, 1, 6, 7, 42, 14, 837, DateTimeKind.Utc).AddTicks(5740), "huseyingulerman.1997@gmail.com", false, "Hüseyin", "44572008224", true, "Gülerman", false, null, null, null, null, "123456", null, false, "1d9f7db0-531f-4e46-91dc-64178c33baca", 1, false, "huseying" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_AccountTypeId",
+                table: "Accounts",
+                column: "AccountTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_AppUserId",
+                table: "Accounts",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -206,6 +325,16 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Processes_AccountId",
+                table: "Processes",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Processes_AppUserId",
+                table: "Processes",
+                column: "AppUserId");
         }
 
         /// <inheritdoc />
@@ -227,7 +356,16 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Processes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "AccountTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

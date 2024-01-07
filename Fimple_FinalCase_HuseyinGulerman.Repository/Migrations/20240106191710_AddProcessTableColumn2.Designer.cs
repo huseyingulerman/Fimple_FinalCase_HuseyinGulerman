@@ -3,6 +3,7 @@ using System;
 using Fimple_FinalCase_HuseyinGulerman.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240106191710_AddProcessTableColumn2")]
+    partial class AddProcessTableColumn2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,9 +174,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                             Id = "00c92277-f154-49d4-9765-9be7357a04bd",
                             AccessFailedCount = 0,
                             Addresses = "Üsküdar",
-                            ConcurrencyStamp = "10ea3b48-2aa1-4883-8a3c-f70d9fa93665",
-                            CreatedDate = new DateTime(2024, 1, 7, 0, 28, 42, 559, DateTimeKind.Utc).AddTicks(5044),
-                            DateOfBirth = new DateTime(2024, 1, 7, 0, 28, 42, 559, DateTimeKind.Utc).AddTicks(5156),
+                            ConcurrencyStamp = "55ab83f2-433d-49fd-a8ab-df82eb16d00f",
+                            CreatedDate = new DateTime(2024, 1, 6, 19, 17, 10, 175, DateTimeKind.Utc).AddTicks(9176),
+                            DateOfBirth = new DateTime(2024, 1, 6, 19, 17, 10, 175, DateTimeKind.Utc).AddTicks(9280),
                             Email = "huseyingulerman.1997@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Hüseyin",
@@ -183,7 +186,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                             LockoutEnabled = false,
                             PasswordHash = "123456",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "892145e8-665c-42c5-8beb-ca3e785f5e06",
+                            SecurityStamp = "6d6dac2a-ce07-4a33-b4c7-158df00c5dbd",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "huseying"

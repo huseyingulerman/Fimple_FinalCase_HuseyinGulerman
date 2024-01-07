@@ -69,6 +69,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
             return AppResult<IEnumerable<TResponse>>.Success(StatusCodes.Status200OK, responseEntities);
         }
 
+        public async Task<IAppResult<IEnumerable<TResponse>>> GetAllByExpAsync(params Expression<Func<TEntity, bool>>[] expression)
+        {
+            var entities = await _uow.GetRepository<TEntity>().GetAllAsync(expression).ToListAsync();
+            var dtos = _mapper.Map<IEnumerable<TResponse>>(entities);
+
+            return AppResult<IEnumerable<TResponse>>.Success(StatusCodes.Status200OK, dtos);
+        }
+
         public async Task<IAppResult<IEnumerable<TResponse>>> GetAllByIncludeAsync(Expression<Func<TEntity, bool>> exp, params Expression<Func<TEntity, object>>[] includes)
         {
             var entities = await _uow.GetRepository<TEntity>().GetAllByIncludeAsync(exp, includes).ToListAsync();
@@ -95,6 +103,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
             return AppResult<TResponse>.Success(StatusCodes.Status200OK, response);
         }
 
+     
+
         public async Task<IAppResult<NoContentDTO>> RemoveAsync(int id)
         {
             var entity = await _uow.GetRepository<TEntity>().GetByIdAsync(id);
@@ -112,13 +122,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
             return AppResult<NoContentDTO>.Success(StatusCodes.Status204NoContent);
         }
 
-        public async Task<IAppResult<NoContentDTO>> UpdateAsync(TRequest request)
+        public async Task<IAppResult<TResponse>> UpdateAsync(TRequest request)
         {
             var entity = _mapper.Map<TEntity>(request);
             _uow.GetRepository<TEntity>().Update(entity);
             await _uow.CommitAsync();
 
-            return AppResult<NoContentDTO>.Success(StatusCodes.Status204NoContent);
+            var tresponse = _mapper.Map<TResponse>(entity);
+            return AppResult<TResponse>.Success(StatusCodes.Status204NoContent,tresponse);
         }
 
         public async Task<IAppResult<IEnumerable<TResponse>>> Where(Expression<Func<TEntity, bool>> expression)

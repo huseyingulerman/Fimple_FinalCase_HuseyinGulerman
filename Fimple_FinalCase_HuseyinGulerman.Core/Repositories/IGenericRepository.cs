@@ -11,10 +11,12 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.Repositories
    public interface IGenericRepository<T> where T : class, IEntity
     {
         Task<T> GetByIdAsync(int id);
+        
         IQueryable<T> GetAll();
         IQueryable<T> GetAllActive();
         IQueryable<T> GetAllByIncludeParametersAsync(Expression<Func<T, object>> include, params Expression<Func<T, bool>>[] exps);
         IQueryable<T> GetAllByIncludeAsync(Expression<Func<T, bool>> exp, params Expression<Func<T, object>>[] includes);
+        IQueryable<T> GetAllAsync(params Expression<Func<T, bool>>[] exps);
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         Task<bool> Activate(int id);

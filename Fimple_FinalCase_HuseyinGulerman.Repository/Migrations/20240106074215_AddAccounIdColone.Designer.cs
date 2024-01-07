@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240102222949_Init1")]
-    partial class Init1
+    [Migration("20240106074215_AddAccounIdColone")]
+    partial class AddAccounIdColone
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,114 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("AccountBalance")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccountTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("DailyTransactionLimit")
+                        .HasColumnType("double precision");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("OneTimeTransactionLimit")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountTypeId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AccountType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Vadeli",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Döviz",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Altın",
+                            Status = 1
+                        });
+                });
 
             modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AppUser", b =>
                 {
@@ -55,6 +163,10 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
@@ -119,22 +231,72 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                             Id = "00c92277-f154-49d4-9765-9be7357a04bd",
                             AccessFailedCount = 0,
                             Addresses = "Üsküdar",
-                            ConcurrencyStamp = "508b6b5a-0b04-4229-adee-b895807dfd6e",
-                            CreatedDate = new DateTime(2024, 1, 2, 22, 29, 49, 495, DateTimeKind.Utc).AddTicks(8727),
-                            DateOfBirth = new DateTime(2024, 1, 2, 22, 29, 49, 495, DateTimeKind.Utc).AddTicks(8769),
+                            ConcurrencyStamp = "b6786d77-03b6-4fd4-8f9a-79fb497cb1c7",
+                            CreatedDate = new DateTime(2024, 1, 6, 7, 42, 14, 837, DateTimeKind.Utc).AddTicks(5631),
+                            DateOfBirth = new DateTime(2024, 1, 6, 7, 42, 14, 837, DateTimeKind.Utc).AddTicks(5740),
                             Email = "huseyingulerman.1997@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Hüseyin",
+                            IdentificationNumber = "44572008224",
                             IsActive = true,
                             LastName = "Gülerman",
                             LockoutEnabled = false,
                             PasswordHash = "123456",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "417fc192-3924-4fa2-adfb-d3274bbaf218",
+                            SecurityStamp = "1d9f7db0-531f-4e46-91dc-64178c33baca",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "huseying"
                         });
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Process", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("AmountSent")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OutgoingAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProcessType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("TransactionSuccessful")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Processes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -161,6 +323,26 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5b64a78a-4442-4e92-a019-4f7bfb29ac52",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "6b64a78a-4442-4e92-a019-4f7bfb29ac52",
+                            Name = "user",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "7b64a78a-4442-4e92-a019-4f7bfb29ac52",
+                            Name = "auditor",
+                            NormalizedName = "AUDITOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -269,6 +451,44 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Account", b =>
+                {
+                    b.HasOne("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AccountType", "AccountType")
+                        .WithMany("Accounts")
+                        .HasForeignKey("AccountTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Accounts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountType");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Process", b =>
+                {
+                    b.HasOne("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Account", "Account")
+                        .WithMany("Processes")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Processes")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -318,6 +538,23 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.Account", b =>
+                {
+                    b.Navigation("Processes");
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AccountType", b =>
+                {
+                    b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("Fimple_FinalCase_HuseyinGulerman.Core.Entities.AppUser", b =>
+                {
+                    b.Navigation("Accounts");
+
+                    b.Navigation("Processes");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,7 +26,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Seeds
                 DateOfBirth=DateTime.UtcNow,
                 PasswordHash="123456",
                 UserName="huseying",
-                Addresses="Üsküdar"
+                Addresses="Üsküdar",
+                IdentificationNumber="44572008224"
+                
                 
 
             });

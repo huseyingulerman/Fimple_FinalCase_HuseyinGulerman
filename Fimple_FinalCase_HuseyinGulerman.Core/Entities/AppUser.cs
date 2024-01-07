@@ -15,10 +15,19 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.Entities
         public bool IsActive { get; set; } = true;
         public string? FirstName { get; set; } = null!;
         public string? LastName { get; set; } = null!;
+        public string IdentificationNumber { get; set; }
         public string Addresses { get; set; }
+        public ICollection< Account> Accounts { get; set; }
+        public ICollection< Process> Processes { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public Status Status { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime? ModifiedDate { get; set; }
+        public AppUser()
+        {
+            Processes= new HashSet<Process>();
+            UserName=Guid.NewGuid().ToString();
+            Accounts=new HashSet<Account>();
+        }
     }
 }

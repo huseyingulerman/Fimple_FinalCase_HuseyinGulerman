@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api
 {
@@ -39,6 +41,13 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                     options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
                 });
             });
+    //         builder.Services.AddHangfire(configuration => configuration
+    //.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    //.UseSimpleAssemblyNameTypeSerializer()
+    //.UseRecommendedSerializerSettings()
+    //.UsePostgreSqlStorage("Postgresql"));
+
+    //        builder.Services.AddHangfireServer();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Final Case", Version = "v1" });
@@ -84,9 +93,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                     //ClockSkew = TimeSpan.FromMinutes(2)
                 };
             });
-       
+
             var app = builder.Build();
-       
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

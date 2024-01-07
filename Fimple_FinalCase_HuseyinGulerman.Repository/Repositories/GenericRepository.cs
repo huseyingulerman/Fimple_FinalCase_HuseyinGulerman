@@ -53,6 +53,17 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
             return _dbSet.Where(x => x.IsActive).AsNoTracking();
         }
 
+        public IQueryable<T> GetAllAsync(params Expression<Func<T, bool>>[] exps)
+        {
+            IQueryable<T> query = _dbSet.AsQueryable();
+          
+            foreach (var exp in exps)
+            {
+                query = query.Where(exp);
+            }
+            return query;
+        }
+
         public IQueryable<T> GetAllByIncludeAsync(Expression<Func<T, bool>> exp, params Expression<Func<T, object>>[] includes)
         {
             var query = _dbSet.Where(exp);
@@ -76,8 +87,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
             return query;
         }
 
-        public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+        public async Task<T> GetByIdAsync(int id) => await _dbSet.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
 
+       
         public bool Remove(T entity)
         {
             try
@@ -118,6 +130,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
             try
             {
                 _dbSet.Update(entity);
+       
                 return true;
             }
             catch (Exception)

@@ -3,6 +3,7 @@ using System;
 using Fimple_FinalCase_HuseyinGulerman.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240106173123_AddProcessTableColumn")]
+    partial class AddProcessTableColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,9 +174,9 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                             Id = "00c92277-f154-49d4-9765-9be7357a04bd",
                             AccessFailedCount = 0,
                             Addresses = "Üsküdar",
-                            ConcurrencyStamp = "10ea3b48-2aa1-4883-8a3c-f70d9fa93665",
-                            CreatedDate = new DateTime(2024, 1, 7, 0, 28, 42, 559, DateTimeKind.Utc).AddTicks(5044),
-                            DateOfBirth = new DateTime(2024, 1, 7, 0, 28, 42, 559, DateTimeKind.Utc).AddTicks(5156),
+                            ConcurrencyStamp = "0dfa63d8-0c69-42ec-a3d8-122e1b1b0961",
+                            CreatedDate = new DateTime(2024, 1, 6, 17, 31, 22, 811, DateTimeKind.Utc).AddTicks(1823),
+                            DateOfBirth = new DateTime(2024, 1, 6, 17, 31, 22, 811, DateTimeKind.Utc).AddTicks(1952),
                             Email = "huseyingulerman.1997@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Hüseyin",
@@ -183,7 +186,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                             LockoutEnabled = false,
                             PasswordHash = "123456",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "892145e8-665c-42c5-8beb-ca3e785f5e06",
+                            SecurityStamp = "710bcb8f-ad14-43ba-96b8-91773ce8598b",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "huseying"
@@ -214,15 +217,15 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsItAutomaticPayment")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("OutgoingAccountNumber")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ProcessStatus")
                         .HasColumnType("integer");

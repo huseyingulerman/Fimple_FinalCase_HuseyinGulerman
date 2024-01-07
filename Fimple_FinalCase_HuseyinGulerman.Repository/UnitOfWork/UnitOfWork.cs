@@ -1,6 +1,7 @@
 ﻿using Fimple_FinalCase_HuseyinGulerman.Core.Repositories;
 using Fimple_FinalCase_HuseyinGulerman.Core.UnitOfWork;
 using Fimple_FinalCase_HuseyinGulerman.Repository.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,26 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.UnitOfWork
         {
             _context = context;
         }
+
+        int IUnitOfWork.saveChanges()
+        {
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    int commit = _context.SaveChanges();
+                    tran.Commit();
+                    return commit;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return 0;
+                }
+            }
+
+        }
+
         public void Commit()
         {
             _context.SaveChanges();

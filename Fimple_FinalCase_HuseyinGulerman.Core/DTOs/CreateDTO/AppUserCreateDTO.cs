@@ -12,8 +12,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.DTOs.CreateDTO
         public string LastName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
+        public string IdentificationNumber { get; set; }
         public string Addresses { get; set; }
-        public string  UserName { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
     }

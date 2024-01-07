@@ -11,7 +11,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.Result.Abstract
         int StatusCode { get; }
         List<string> Errors { get; }
     }
-    public interface IAppResult<out T> : IAppResult
+    public interface IAppResult<out T > : IAppResult
     {
         T Data { get; }
     }

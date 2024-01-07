@@ -12,6 +12,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
         {
             
         }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Process> Processes { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var item in ChangeTracker.Entries())
@@ -33,14 +35,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
                                 entityReference.Status = Core.Enums.Status.Modified;
                                 break;
                             }
-                        case EntityState.Deleted:
-                            {
-                                Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
-                                Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
+                        //case EntityState.Deleted:
+                        //    {
+                        //        Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
+                        //        Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
                                
                    
-                                break;
-                            }
+                        //        break;
+                        //    }
                     }
                 }
             }
@@ -58,6 +60,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
                             {
                                 entityReference.CreatedDate = DateTime.UtcNow;
                                 entityReference.Status = Core.Enums.Status.Added;
+                                entityReference.IsActive= true;
                                 break;
                             }
                         case EntityState.Modified:
@@ -67,14 +70,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
                                 entityReference.Status = Core.Enums.Status.Modified;
                                 break;
                             }
-                        case EntityState.Deleted:
-                            {
-                                Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
-                                Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
+                        //case EntityState.Deleted:
+                        //    {
+                        //        Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
+                        //        Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
                               
                               
-                                break;
-                            }
+                        //        break;
+                        //    }
                     }
                 }
             }
