@@ -1,6 +1,6 @@
 
 Bu projede küçük bir banka simülatörü kurmayı amaçladım. Kullanıcı kayıtlarını ıdentity kütüphanesini kullanarak yaptım. Generic repo kullandım.JWT kullandım. 3 farklı rol olarak yönetilebilmektedir. Projede register ve login olduktan sonra rollere göre controllerlara ulaşım gerçekleştirilebilmektedir.
-API, Jwt ve Code-First yaklaşımıyla geliştirilen proje.
+Proje API, Jwt ve Code-First yaklaşımıyla geliştirildi.
 Language: C#
 Database: Postgresql
 ORM Tool: Entity Framework Core
