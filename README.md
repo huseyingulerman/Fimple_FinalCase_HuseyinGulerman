@@ -1,3 +1,18 @@
+
+Bu projede küçük bir banka simülatörü kurmayı amaçladım. Kullanıcı kayıtlarını ıdentity kütüphanesini kullanarak yaptım. Generic repo kullandım.JWT kullandım. 3 farklı rol olarak yönetilebilmektedir. Projede register ve login olduktan sonra rollere göre controllerlara ulaşım gerçekleştirilebilmektedir.
+API, Jwt ve Code-First yaklaşımıyla geliştirilen proje.
+Language: C#
+Database: Postgresql
+ORM Tool: Entity Framework Core
+
+
+![Adsız](https://github.com/huseyingulerman/Fimple_FinalCase_HuseyinGulerman/assets/125462131/71776285-5701-4d47-b250-56804f94952f)
+![Adsız1](https://github.com/huseyingulerman/Fimple_FinalCase_HuseyinGulerman/assets/125462131/1f7cd859-4cfe-426a-9f1f-c3c3ceed0050)
+![Adsız3](https://github.com/huseyingulerman/Fimple_FinalCase_HuseyinGulerman/assets/125462131/3e053fda-e2ff-42cc-8e67-622916fca4bc)
+![Adsız4](https://github.com/huseyingulerman/Fimple_FinalCase_HuseyinGulerman/assets/125462131/9b099a76-029c-4d8c-91a4-c82ef4f26a5b)
+![Adsız5](https://github.com/huseyingulerman/Fimple_FinalCase_HuseyinGulerman/assets/125462131/22b25906-e9fa-4564-8382-991636442503)
+
+
 Giriş
 Günümüzde, bankacılık hizmetleri giderek daha fazla dijitalleşmekte ve müşteri beklentileri sürekli olarak evrilmektedir. Bu değişim, bankacılık sistemlerinin güvenli, etkili ve kullanıcı dostu web servisleriyle donatılmasını zorunlu kılmaktadır. Bu ödev, öğrencilerin .NET platformu üzerinde RESTful API'ler geliştirme becerilerini geliştirmeyi amaçlamaktadır. 
 
