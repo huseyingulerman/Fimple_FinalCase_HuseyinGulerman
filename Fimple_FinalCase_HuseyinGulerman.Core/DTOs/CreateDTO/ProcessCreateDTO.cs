@@ -11,7 +11,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.DTOs.CreateDTO
 {
     public class ProcessCreateDTO
     {
-
+        [JsonIgnore]
         public int Id { get; set; } = 0;
         [JsonIgnore]
         public ProcessStatus ProcessStatus { get; set; }

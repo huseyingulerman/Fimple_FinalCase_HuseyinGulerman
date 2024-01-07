@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
-    //[Authorize(Roles = "user,auditor")]
+    [Authorize(Roles = "user,auditor")]
     [Route("api/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -25,14 +25,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
             _appUserService=appUserService;
             _mapper=mapper;
         }
-        [HttpPost("{id}")]
-        public async Task<IActionResult> AddAccount(string id, UserAccountCreateDTO userAccountCreateDTO)
+        [HttpPost("{userid}")]
+        public async Task<IActionResult> AddAccount(string userid, UserAccountCreateDTO userAccountCreateDTO)
         {
             if (ModelState.IsValid)
             {
-                var resultUser = await _appUserService.FindByIdAsync(id);
+                var resultUser = await _appUserService.FindByIdAsync(userid);
                
-                if (id is null)
+                if (userid is null)
                 {
                     return BadRequest("Hesap açılacak kullanıcının id adresini giriniz.");
                 }
@@ -46,11 +46,12 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
               var _accountDTO=  _accountService.AddAccountAsync(_accountCreateDTO, resultUser.IdentificationNumber);
                 if (_accountDTO.IsCompletedSuccessfully)
                 {
+                    //return Created("/api/accounts/", _accountDTO.Result.Data);
                     return Created("/api/accounts/", _accountDTO.Result.Data);
+
                 }
                 else
-                {
-                    
+                {  
                     return BadRequest(_accountDTO.Result.Errors);
                 }
             }
@@ -74,12 +75,16 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
                     return BadRequest("Kullanıcı bulunamadı.");
                 }
                var _account=await  _accountService.GetByIdAsync(accountId);
+                if (_account is null)
+                {
+                    return BadRequest("Hesap bulunamadı.");
+                }
                 _account.Data.Name=accountName;
                var _accountCreateDTO= _mapper.Map<AccountUpdateDTO>(_account.Data);
                 var _accountDTO = _accountService.UpdateAsync(_accountCreateDTO);
-                if (_accountDTO.IsCompletedSuccessfully)
+                if (_accountDTO.Result.Errors.Count() ==0  )
                 {
-                    return Created("/api/accounts/", _accountDTO.Result.Data);
+                    return Ok(_accountDTO.Result.Data);
                 }
                 else
                 {

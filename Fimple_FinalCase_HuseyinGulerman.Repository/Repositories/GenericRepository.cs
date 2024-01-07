@@ -43,11 +43,11 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
             }
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression) => await _dbSet.AnyAsync(expression);
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression) => await _dbSet.Where(x=>x.IsActive==true).AnyAsync(expression);
 
 
-        public IQueryable<T> GetAll() => _dbSet.AsNoTracking().AsQueryable();
-
+        public IQueryable<T> GetAll() => _dbSet.Where(x => x.IsActive==true).AsNoTracking().AsQueryable();
+        
         public IQueryable<T> GetAllActive()
         {
             return _dbSet.Where(x => x.IsActive).AsNoTracking();
@@ -59,7 +59,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
           
             foreach (var exp in exps)
             {
-                query = query.Where(exp);
+                query = query.Where(x => x.IsActive).Where(exp);
             }
             return query;
         }
@@ -77,17 +77,17 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
 
         public IQueryable<T> GetAllByIncludeParametersAsync(Expression<Func<T, object>> include, params Expression<Func<T, bool>>[] exps)
         {
-            IQueryable<T> query = _dbSet.AsQueryable();
+            IQueryable<T> query = _dbSet.AsQueryable().Where(x=>x.IsActive);
             query = query.Include(include);
             foreach (var exp in exps)
             {
-                query = query.Where(exp);
+                query = query.Where(x => x.IsActive).Where(exp);
             }
 
             return query;
         }
 
-        public async Task<T> GetByIdAsync(int id) => await _dbSet.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
+        public async Task<T> GetByIdAsync(int id) => await _dbSet.Where(x => x.IsActive).AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
 
        
         public bool Remove(T entity)
@@ -142,7 +142,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            return _dbSet.Where(expression);
+            return _dbSet.Where(x => x.IsActive).Where(expression);
         }
     }
 }

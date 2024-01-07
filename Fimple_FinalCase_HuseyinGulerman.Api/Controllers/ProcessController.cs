@@ -16,12 +16,12 @@ using System.Transactions;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
-    //[Authorize(Roles = "user")]
+    [Authorize(Roles = "user")]
     [Route("api/process")]
     [ApiController]
     public class ProcessController : ControllerBase
     {
-        private readonly object balanceLock = new object();
+
         private readonly IProcessService _processService;
         private readonly IAccountService _accountService;
         private readonly UserManager<AppUser> _appUserService;

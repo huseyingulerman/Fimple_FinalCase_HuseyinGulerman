@@ -12,16 +12,16 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly ITokenService service;
-        public TokenController(ITokenService service)
+        private readonly ITokenService _tokenService;
+        public TokenController(ITokenService tokenService)
         {
-            this.service = service;
+            _tokenService = tokenService;
            
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] TokenCreateDTO tokenCreateDTO   )
         {
-            var response = await service.Login(tokenCreateDTO);
+            var response = await _tokenService.Login(tokenCreateDTO);
             if (response.Errors is not null)
             {
                 return BadRequest(response.Errors);

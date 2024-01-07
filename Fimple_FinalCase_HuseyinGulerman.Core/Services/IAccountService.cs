@@ -14,6 +14,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.Services
     public interface IAccountService : IService<Account, AccountCreateDTO, AccountDTO>
     {
         Task<IAppResult<AccountDTO>> AddAccountAsync(AccountCreateDTO accountCreateDTO,string identificationNumber);
+        Task<IAppResult<AccountDTO>> AddDepositAccountAsync(AppUser appUser);
+
         Task<Account> GetAccountByExpAsync(Expression<Func<Account, bool>> exp);
     }
 }

@@ -18,7 +18,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
 
         public Task<Account> GetAccountByExpAsync(Expression<Func<Account, bool>> exp)
         {
-                var query = _context.Accounts.Where(exp).FirstOrDefaultAsync();
+                var query = _context.Accounts.Where(x => x.IsActive).Where(exp).FirstOrDefaultAsync();
 
                 return query;
         }

@@ -23,11 +23,11 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.Entities
         public Account()
         {
             Processes= new HashSet<Process>();
-            DailyTransactionLimit = 20;
-            OneTimeTransactionLimit = 10;
+            DailyTransactionLimit = 2000;
+            OneTimeTransactionLimit = 1000;
             IsActive = true;
         }
-        public Account(string name, string FirstName, string LastName, string appUserId, AccountType accountType = AccountType.CurrencyAccount, double accountBalance = 0)
+        public Account(string name, string FirstName, string LastName, string appUserId, AccountType accountType = AccountType.DepositAccount, double accountBalance = 0)
         {
             Name = name;
             AppUserId = appUserId;
