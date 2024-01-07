@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
@@ -112,7 +113,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("getallusers")]
-        public async Task<IAppResult> GetAllUser()
+        public async Task<IActionResult> GetAllUser()
         {
             var usersWithRoles = new List<object>();
             var users=await _appUserService.Users.AsNoTracking().ToListAsync();
@@ -128,7 +129,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
                 };
                 usersWithRoles.Add(userWithRoles);
             }
-            return (IAppResult)usersWithRoles;
+            return Ok(usersWithRoles.ToList());
         }
     }
 }
