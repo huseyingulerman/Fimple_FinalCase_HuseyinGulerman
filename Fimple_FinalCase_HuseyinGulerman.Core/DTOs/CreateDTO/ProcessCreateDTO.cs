@@ -20,6 +20,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Core.DTOs.CreateDTO
         public int AccountId { get; set; }
         [JsonIgnore]
         public string? AppUserId { get; set; }
+        [JsonIgnore]
         public bool IsActive { get; set; }
         public ProcessType ProcessType { get; set; }
         [JsonIgnore]

@@ -50,15 +50,13 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
             {
                 throw new ArgumentException("Vadesiz hesap 1 taneden fazla açılamaz");
             }
-            if (_minBalance>accountCreateDTO.AccountBalance )
-            {
-                throw new ArgumentException("Açılan hesap bakiyesi 10 TL den az olamaz");
-            }
+
             if (!Enum.IsDefined(typeof(AccountType), accountCreateDTO.AccountType))
             {
                 throw new ArgumentException("Bu hesap tipi kullanılamamaktadır.");
             }
-            var accountCurrency = _accountRepository.GetAllAsync(x => x.AppUserId==accountCreateDTO.AppUserId, x => x.AccountType==AccountType.DepositAccount, x => x.IsActive==true).AsNoTracking();
+            //Giriş yapmış kullanıcının vadesiz hesaplarını getiriyor.
+            var accountCurrency =await _accountRepository.GetAllAsync(x => x.AppUserId==accountCreateDTO.AppUserId, x => x.AccountType==AccountType.DepositAccount, x => x.IsActive==true).AsNoTracking().ToListAsync();
             foreach (var item in accountCurrency)
             {
                 if (item.AccountBalance<0)
@@ -86,6 +84,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<IAppResult<AccountDTO>> AddDepositAccountAsync(AppUser appUser)
         {
+            //Giriş yapmış kullanıcının vadesiz hesaplarını getiriyor.
             var accountCurrency =await _accountRepository.GetAllAsync(x => x.AppUserId==appUser.Id, x => x.AccountType==AccountType.DepositAccount, x => x.IsActive==true).AsNoTracking().ToListAsync();
             foreach (var item in accountCurrency)
             {
@@ -94,7 +93,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Services
                     throw new ArgumentException("Vadesiz hesap 1 taneden fazla açılamaz");
                 }
             }
-            Account account = new Account($"{appUser.FirstName}{appUser.LastName}-Vadeli Hesabım", appUser.LastName, appUser.FirstName, appUser.Id);
+            Account account = new Account($"{appUser.FirstName}{appUser.LastName}-Vadesiz Hesabım", appUser.LastName, appUser.FirstName, appUser.Id);
             var accountNumber = AccountNumberGenerator(appUser.IdentificationNumber);
             account.AccountNumber = accountNumber;
             account.DailyTransactionLimit=2000;

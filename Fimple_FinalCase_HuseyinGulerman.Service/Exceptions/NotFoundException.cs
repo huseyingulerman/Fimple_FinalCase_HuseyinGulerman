@@ -10,7 +10,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Exceptions
     {
         public NotFoundException(string message) : base(message)
         {
-
+           
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository.Repositories
           
             foreach (var exp in exps)
             {
-                query = query.Where(x => x.IsActive).Where(exp);
+                query = query.Where(x => x.IsActive).Where(exp).AsNoTracking();
             }
             return query;
         }

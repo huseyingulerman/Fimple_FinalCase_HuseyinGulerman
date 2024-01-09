@@ -12,8 +12,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using Hangfire;
-using Hangfire.PostgreSql;
+
+using FluentValidation.AspNetCore;
+using Fimple_FinalCase_HuseyinGulerman.Service.Validations;
+using Quartz;
+using Fimple_FinalCase_HuseyinGulerman.Api.Jobs;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api
 {
@@ -41,13 +44,26 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                     options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
                 });
             });
-    //         builder.Services.AddHangfire(configuration => configuration
-    //.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-    //.UseSimpleAssemblyNameTypeSerializer()
-    //.UseRecommendedSerializerSettings()
-    //.UsePostgreSqlStorage("Postgresql"));
 
-    //        builder.Services.AddHangfireServer();
+
+
+            builder.Services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProcessCreateValidation>());
+
+            //Job configuration larý.
+            builder.Services.AddQuartz(q =>
+            {
+                var jobKey = new JobKey("FimpleFinalCase");
+                q.AddJob<MakeAutomaticPaymentBackgroundJob>(opts => opts.WithIdentity(jobKey));
+
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey)
+                    .WithIdentity("FimpleFinalCase-trigger")
+                    .WithSimpleSchedule(x=>x.WithIntervalInSeconds(10).RepeatForever())
+            ) ;
+            });
+            builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Final Case", Version = "v1" });
@@ -102,7 +118,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -111,7 +127,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
 
 
             app.MapControllers();
-
+        
             app.Run();
         }
     }

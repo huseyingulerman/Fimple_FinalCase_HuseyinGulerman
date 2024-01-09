@@ -3,6 +3,7 @@ using Fimple_FinalCase_HuseyinGulerman.Core.DTOs.CreateDTO;
 using Fimple_FinalCase_HuseyinGulerman.Core.DTOs.UpdateDTO;
 using Fimple_FinalCase_HuseyinGulerman.Core.Entities;
 using Fimple_FinalCase_HuseyinGulerman.Core.Services;
+using Fimple_FinalCase_HuseyinGulerman.Service.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,7 @@ using System.Security.Claims;
 
 namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
 {
-    [Authorize(Roles = "user,auditor")]
+    [Authorize(Roles = "user")]
     [Route("api/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -25,18 +26,14 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
             _appUserService=appUserService;
             _mapper=mapper;
         }
-        [HttpPost("{userid}")]
-        public async Task<IActionResult> AddAccount(string userid, UserAccountCreateDTO userAccountCreateDTO)
+        [HttpPost("addaccount")]
+        public async Task<IActionResult> AddAccount( UserAccountCreateDTO userAccountCreateDTO)
         {
             if (ModelState.IsValid)
             {
-                var resultUser = await _appUserService.FindByIdAsync(userid);
-               
-                if (userid is null)
-                {
-                    return BadRequest("Hesap açılacak kullanıcının id adresini giriniz.");
-                }
-              
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var resultUser = await _appUserService.FindByIdAsync(userId);
+
                 if (resultUser is null)
                 {
                     return BadRequest("Kullanıcı bulunamadı.");
@@ -57,18 +54,13 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
             }
             return BadRequest(userAccountCreateDTO);
         }
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateAccount(string id,int accountId, string accountName)
+        [HttpPatch("{accountId}")]
+        public async Task<IActionResult> UpdateAccount(int accountId, string accountName)
         {
             if (ModelState.IsValid)
             {
-                var resultUser = await _appUserService.FindByIdAsync(id);
-
-
-                if (id is null)
-                {
-                    return BadRequest("Hesap ismi güncellenecek kullanıcının id adresini giriniz.");
-                }
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var resultUser = await _appUserService.FindByIdAsync(userId);
 
                 if (resultUser is null)
                 {

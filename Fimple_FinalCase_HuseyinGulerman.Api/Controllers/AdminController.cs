@@ -35,8 +35,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
         /// <param name="email"></param>
         /// <param name="appUserRoleCreateDTO"></param>
         /// <returns></returns>
-        [HttpPost("addrole/{email}")]
-        public async Task<IActionResult> AddRole(string email, AppUserRoleCreateDTO appUserRoleCreateDTO)
+        [HttpPost("{userId}")]
+        public async Task<IActionResult> AddRole(string userId, AppUserRoleCreateDTO appUserRoleCreateDTO)
         {
             if (ModelState.IsValid)
             {
@@ -46,11 +46,11 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
                 {
                     return BadRequest("Rol bulunamadı.");
                 }
-                if (email is null)
+                if (userId is null)
                 {
-                    return BadRequest("Rol eklenecek kullanıcının email adresini giriniz.");
+                    return BadRequest("Rol eklenecek kullanıcının Idsini giriniz.");
                 }
-                var resultUser = await _appUserService.FindByEmailAsync(email);
+                var resultUser = await _appUserService.FindByIdAsync(userId);
                 if (resultUser is null)
                 {
                     return BadRequest("Kullanıcı bulunamadı.");
@@ -76,8 +76,8 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
         /// <param name="email"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        [HttpDelete("deleterole/{email}")]
-        public async Task<IActionResult> DeleteRole(string email, string role)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteRole(string userId, string role)
         {
             if (ModelState.IsValid)
             {
@@ -86,11 +86,11 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api.Controllers
                 {
                     return BadRequest("Rol bulunamadı.");
                 }
-                if (email is null)
+                if (userId is null)
                 {
-                    return BadRequest("Rolü güncellenecek kullanıcının email adresini giriniz.");
+                    return BadRequest("Rolü güncellenecek kullanıcının Idsini giriniz.");
                 }
-                var resultUser = await _appUserService.FindByEmailAsync(email);
+                var resultUser = await _appUserService.FindByIdAsync(userId);
                 if (resultUser is null)
                 {
                     return BadRequest("Kullanıcı bulunamadı.");

@@ -32,9 +32,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Service.Mapping
 
 
 
-            CreateMap<Account, AccountDTO>()
-              .ForMember(dest => dest.AccountTypeName, opt => opt.MapFrom(src => src.AccountType.ToString()));
-
+         
             CreateMap<Process, ProcessDTO>().ReverseMap()
           .ForMember(dest => dest.ProcessType, opt => opt.MapFrom(src =>src.ProcessTypeName.ToString()));
 
