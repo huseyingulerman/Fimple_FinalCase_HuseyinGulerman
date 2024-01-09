@@ -35,14 +35,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
                                 entityReference.Status = Core.Enums.Status.Modified;
                                 break;
                             }
-                        //case EntityState.Deleted:
-                        //    {
-                        //        Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
-                        //        Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
-                               
-                   
-                        //        break;
-                        //    }
+                      
                     }
                 }
             }
@@ -70,14 +63,6 @@ namespace Fimple_FinalCase_HuseyinGulerman.Repository
                                 entityReference.Status = Core.Enums.Status.Modified;
                                 break;
                             }
-                        //case EntityState.Deleted:
-                        //    {
-                        //        Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
-                        //        Entry(entityReference).Property(x => x.ModifiedDate).IsModified = false;
-                              
-                              
-                        //        break;
-                        //    }
                     }
                 }
             }

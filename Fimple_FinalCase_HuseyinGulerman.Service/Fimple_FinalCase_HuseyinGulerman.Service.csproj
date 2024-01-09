@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Fimple_FinalCase_HuseyinGulerman.Repository\Fimple_FinalCase_HuseyinGulerman.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validations\" />
-  </ItemGroup>
-
 </Project>
