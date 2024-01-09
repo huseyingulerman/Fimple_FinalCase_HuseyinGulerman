@@ -58,7 +58,7 @@ namespace Fimple_FinalCase_HuseyinGulerman.Api
                 q.AddTrigger(opts => opts
                     .ForJob(jobKey)
                     .WithIdentity("FimpleFinalCase-trigger")
-                    .WithSimpleSchedule(x=>x.WithIntervalInSeconds(10).RepeatForever())
+                    .WithSimpleSchedule(x=>x.WithIntervalInHours(24).RepeatForever())
             ) ;
             });
             builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
